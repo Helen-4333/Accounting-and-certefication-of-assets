@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище AssetsAccountingModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Abonent">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="number" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="pc" Type="int" Nullable="false" />
+          <Property Name="lastname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="firstname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="patronymic" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="gender" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="birthday" Type="datetime" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AbonentsAddress">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id_abonent" Type="int" Nullable="false" />
+          <Property Name="residence" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="habitation" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Request">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id_abonents" Type="int" Nullable="false" />
+          <Property Name="number" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id_request" Type="int" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="vid_service" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="type_service" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AbonentsAddress_Abonent">
+          <End Role="Abonent" Type="Self.Abonent" Multiplicity="1" />
+          <End Role="AbonentsAddress" Type="Self.AbonentsAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Abonent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="AbonentsAddress">
+              <PropertyRef Name="id_abonent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Request_Abonent">
+          <End Role="Abonent" Type="Self.Abonent" Multiplicity="1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Abonent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="id_abonents" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Service_Request">
+          <End Role="Request" Type="Self.Request" Multiplicity="1" />
+          <End Role="Service" Type="Self.Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="id_request" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище AssetsAccountingModelContainer">
+          <EntitySet Name="Abonent" EntityType="Self.Abonent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AbonentsAddress" EntityType="Self.AbonentsAddress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Request" EntityType="Self.Request" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AbonentsAddress_Abonent" Association="Self.FK_AbonentsAddress_Abonent">
+            <End Role="Abonent" EntitySet="Abonent" />
+            <End Role="AbonentsAddress" EntitySet="AbonentsAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Request_Abonent" Association="Self.FK_Request_Abonent">
+            <End Role="Abonent" EntitySet="Abonent" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Service_Request" Association="Self.FK_Service_Request">
+            <End Role="Request" EntitySet="Request" />
+            <End Role="Service" EntitySet="Service" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AssetsAccountingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Abonent">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="pc" Type="Int32" Nullable="false" />
+          <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="birthday" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AbonentsAddress" Relationship="Self.FK_AbonentsAddress_Abonent" FromRole="Abonent" ToRole="AbonentsAddress" />
+          <NavigationProperty Name="Request" Relationship="Self.FK_Request_Abonent" FromRole="Abonent" ToRole="Request" />
+        </EntityType>
+        <EntityType Name="AbonentsAddress">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id_abonent" Type="Int32" Nullable="false" />
+          <Property Name="residence" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="habitation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Abonent" Relationship="Self.FK_AbonentsAddress_Abonent" FromRole="AbonentsAddress" ToRole="Abonent" />
+        </EntityType>
+        <EntityType Name="Request">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id_abonents" Type="Int32" Nullable="false" />
+          <Property Name="number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Abonent" Relationship="Self.FK_Request_Abonent" FromRole="Request" ToRole="Abonent" />
+          <NavigationProperty Name="Service" Relationship="Self.FK_Service_Request" FromRole="Request" ToRole="Service" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id_request" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="vid_service" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="type_service" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Request" Relationship="Self.FK_Service_Request" FromRole="Service" ToRole="Request" />
+        </EntityType>
+        <Association Name="FK_AbonentsAddress_Abonent">
+          <End Role="Abonent" Type="Self.Abonent" Multiplicity="1" />
+          <End Role="AbonentsAddress" Type="Self.AbonentsAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Abonent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="AbonentsAddress">
+              <PropertyRef Name="id_abonent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Request_Abonent">
+          <End Role="Abonent" Type="Self.Abonent" Multiplicity="1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Abonent">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="id_abonents" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Service_Request">
+          <End Role="Request" Type="Self.Request" Multiplicity="1" />
+          <End Role="Service" Type="Self.Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="id_request" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AssetsAccountingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Abonent" EntityType="Self.Abonent" />
+          <EntitySet Name="AbonentsAddress" EntityType="Self.AbonentsAddress" />
+          <EntitySet Name="Request" EntityType="Self.Request" />
+          <EntitySet Name="Service" EntityType="Self.Service" />
+          <AssociationSet Name="FK_AbonentsAddress_Abonent" Association="Self.FK_AbonentsAddress_Abonent">
+            <End Role="Abonent" EntitySet="Abonent" />
+            <End Role="AbonentsAddress" EntitySet="AbonentsAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Request_Abonent" Association="Self.FK_Request_Abonent">
+            <End Role="Abonent" EntitySet="Abonent" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Service_Request" Association="Self.FK_Service_Request">
+            <End Role="Request" EntitySet="Request" />
+            <End Role="Service" EntitySet="Service" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище AssetsAccountingModelContainer" CdmEntityContainer="AssetsAccountingEntities">
+          <EntitySetMapping Name="Abonent">
+            <EntityTypeMapping TypeName="AssetsAccountingModel.Abonent">
+              <MappingFragment StoreEntitySet="Abonent">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="pc" ColumnName="pc" />
+                <ScalarProperty Name="lastname" ColumnName="lastname" />
+                <ScalarProperty Name="firstname" ColumnName="firstname" />
+                <ScalarProperty Name="patronymic" ColumnName="patronymic" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="birthday" ColumnName="birthday" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AbonentsAddress">
+            <EntityTypeMapping TypeName="AssetsAccountingModel.AbonentsAddress">
+              <MappingFragment StoreEntitySet="AbonentsAddress">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_abonent" ColumnName="id_abonent" />
+                <ScalarProperty Name="residence" ColumnName="residence" />
+                <ScalarProperty Name="habitation" ColumnName="habitation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Request">
+            <EntityTypeMapping TypeName="AssetsAccountingModel.Request">
+              <MappingFragment StoreEntitySet="Request">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_abonents" ColumnName="id_abonents" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Service">
+            <EntityTypeMapping TypeName="AssetsAccountingModel.Service">
+              <MappingFragment StoreEntitySet="Service">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_request" ColumnName="id_request" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="vid_service" ColumnName="vid_service" />
+                <ScalarProperty Name="type_service" ColumnName="type_service" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
